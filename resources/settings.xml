@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+    <category label="General">
+        <setting id="use_https"
+                 type="bool"
+                 label="Use HTTPS Netflix URLs"
+                 default="true"/>
+    </category>
+</settings>

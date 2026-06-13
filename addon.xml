@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="plugin.video.netflixshortcuts"
+       name="Netflix Shortcuts"
+       version="1.0.2"
+       provider-name="Sasho">
+
+    <requires>
+        <import addon="xbmc.python" version="3.0.0"/>
+    </requires>
+
+    <extension point="xbmc.python.pluginsource"
+               library="default.py">
+        <provides>video</provides>
+    </extension>
+
+    <extension point="xbmc.addon.metadata">
+        <summary>Netflix title shortcuts</summary>
+        <description>Launch Netflix titles directly from Kodi.</description>
+        <platform>android</platform>
+        <assets>
+		    <icon>icon.png</icon>
+	    </assets>
+    </extension>
+</addon>
