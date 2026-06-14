@@ -1,8 +1,8 @@
-That roadmap makes a lot of sense. Based on what you've already achieved with Netflix, I'd prioritize it roughly like this:
+# Next steps in priority order
 
 ## 1. Formalize the `.strm` format (Highest ROI)
 
-Right now you've proven that Kodi can act as a launcher for external streaming services.
+Right now we've proven that Kodi can act as a launcher for external streaming services.
 
 I'd define a service-agnostic `.strm` format before adding more providers.
 
