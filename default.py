@@ -39,28 +39,7 @@ def launch_title(title_id):
         "android.intent.category.LEANBACK_LAUNCHER,"
         "com.netflix.ninja.MainActivity)"
     )
-    
-'''    
-    xbmc.executebuiltin(
-        "StartAndroidActivity("
-        "com.netflix.ninja,"
-        "android.intent.action.VIEW,,"
-        f"{target})"
-    )
 
-
-    xbmc.executebuiltin(
-        "StartAndroidActivity("
-        "com.netflix.ninja,"
-        "android.intent.action.VIEW,,"
-        f"'{target}',"        
-        '"0x10808000",'
-        f"'{extras_json}',,"
-        "android.intent.category.LEANBACK_LAUNCHER,"
-        "com.netflix.ninja.MainActivity)"
-    )
- 
-'''
    
        
 def show_root():
