@@ -76,8 +76,8 @@ def configure_services():
             ADDON.setSettingBool(f"enable_{service.lower()}", False)   
     # Display the services in the UI with checkmarks for installed ones
     for n,pkg in sorted(SERVICES.items()):
-        found=pkg in installed
-        item=xbmcgui.ListItem(label=("v" if found else "x")+n)
+        found = pkg in installed_packages
+        item = xbmcgui.ListItem(label=("v" if found else "x")+n)
         if found:
             url=sys.argv[0]+"?"+urllib.parse.urlencode({"action":"launch","package":pkg})
             xbmcplugin.addDirectoryItem(HANDLE,url,item,False)
