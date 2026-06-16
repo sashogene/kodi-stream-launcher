@@ -68,11 +68,22 @@ def launch_title(title_id):
 
 def configure_services():
     installed_packages = get_installed_packages()
+    # Addon settings are updated based on the presence of each service's package
     for service, package in SERVICES.items():
         if package in installed_packages:
             ADDON.setSettingBool(f"enable_{service.lower()}", True)
         else:
             ADDON.setSettingBool(f"enable_{service.lower()}", False)   
+    # Display the services in the UI with checkmarks for installed ones
+    for n,pkg in sorted(SERVICES.items()):
+        found=pkg in installed
+        item=xbmcgui.ListItem(label=("v" if found else "x")+n)
+        if found:
+            url=sys.argv[0]+"?"+urllib.parse.urlencode({"action":"launch","package":pkg})
+            xbmcplugin.addDirectoryItem(HANDLE,url,item,False)
+        else:
+            xbmcplugin.addDirectoryItem(HANDLE,"",item,False)
+    xbmcplugin.endOfDirectory(HANDLE)
        
 def show_root():
     for show in NETFLIX_SHOWS:
