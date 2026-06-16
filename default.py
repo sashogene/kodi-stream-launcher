@@ -1,5 +1,6 @@
 import sys
 import urllib.parse
+import subprocess
 
 import xbmc
 import xbmcaddon
@@ -14,6 +15,31 @@ NETFLIX_SHOWS = [
     {"title": "Wednesday", "id": "81231974", "thumb": ""},
     {"title": "The Witcher", "id": "80189685", "thumb": ""}
 ]
+
+SERVICES = {
+    "Netflix": "com.netflix.ninja",
+    "YouTube": "com.google.android.youtube.tv",
+    "Max": "com.wbd.stream",
+    "Viki": "com.viki.android",
+    "Disney+":"com.disney.disneyplus",
+    "Prime Video":"com.amazon.amazonvideo.livingroom",
+    "Apple TV":"com.apple.atve.androidtv.appletv",
+    "Plex":"com.plexapp.android",
+    "Jellyfin":"org.jellyfin.androidtv",
+    "Emby":"com.mb.androidtv",
+    "Crunchyroll":"com.crunchyroll.crunchyroid",
+    "Paramount+":"com.cbs.ca",
+    "Peacock":"com.peacocktv.peacockandroid"
+}
+
+params = dict(urllib.parse.parse_qsl(sys.argv[2].lstrip("?")))
+
+def get_installed_packages():
+    try:
+        output = subprocess.check_output(["pm", "list", "packages"]).decode("utf-8", errors="ignore")
+        return {line.replace("package:", "").strip() for line in output.splitlines()}
+    except Exception:
+        return set()
 
 def build_url(**kwargs):
     return sys.argv[0] + "?" + urllib.parse.urlencode(kwargs)
