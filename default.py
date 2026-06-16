@@ -19,7 +19,7 @@ NETFLIX_SHOWS = [
 SERVICES = {
     "Netflix": "com.netflix.ninja",
     "YouTube": "com.google.android.youtube.tv",
-    "Max": "com.wbd.stream",
+    "HBO Max": "com.wbd.stream",
     "Viki": "com.viki.android",
     "Disney+":"com.disney.disneyplus",
     "Prime Video":"com.amazon.amazonvideo.livingroom",
@@ -66,7 +66,13 @@ def launch_title(title_id):
         "com.netflix.ninja.MainActivity)"
     )
 
-   
+def configure_services():
+    installed_packages = get_installed_packages()
+    for service, package in SERVICES.items():
+        if package in installed_packages:
+            ADDON.setSettingBool(f"enable_{service.lower()}", True)
+        else:
+            ADDON.setSettingBool(f"enable_{service.lower()}", False)   
        
 def show_root():
     for show in NETFLIX_SHOWS:
@@ -78,7 +84,9 @@ def show_root():
 
 params = dict(urllib.parse.parse_qsl(sys.argv[2][1:]))
 
-if params.get("action") == "play":
+if params.len() == 0:
+    configure_services()
+elif params.get("action") == "play":
     #xbmcgui.Dialog().notification('title_id: ', params["title_id"], xbmcgui.NOTIFICATION_INFO, 3000)
     launch_title(params["title_id"])
 else:
