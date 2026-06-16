@@ -95,7 +95,7 @@ def show_root():
 
 params = dict(urllib.parse.parse_qsl(sys.argv[2][1:]))
 
-if params.len() == 0:
+if params == {}:
     configure_services()
 elif params.get("action") == "play":
     #xbmcgui.Dialog().notification('title_id: ', params["title_id"], xbmcgui.NOTIFICATION_INFO, 3000)
