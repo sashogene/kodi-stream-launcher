@@ -17,6 +17,13 @@ plugin://plugin.video.streamlauncher/?action=play&provider=netflix&content_id=82
 
 Kodi already recognizes this as playable media, and will scrape the metadata. Further, Kodi has a built-in mechanism to respond to links in strm files. In the example above, it will invoke the stream launcher, and will pass on the service provider and content ID as parameters. The add-on will then launch the external service app with a deep link to the content.
 
-
 See also the [roadmap](Kodi_Streamer_Roadmap.md).
+
+## Configuration
+
+When launched from the add-on menu (without parameters), the plugin will perform configuration. That will include scanning the host device for installed relevant streaming apps, and storing the package name.
+
+In addition, settings may include behavior preferences and options to cater to existing and future changes to deep-linking behavior.
+
+A possible implementation may allow for choosing whether to call the external app, or use a built-in renderer for Kodi, when one is available. That way strm links will become more versatile by keeping their original Kodi purpose while adding the ability to serve as external links.
 
