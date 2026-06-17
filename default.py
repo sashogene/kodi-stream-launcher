@@ -54,6 +54,26 @@ def get_installed_packages():
 def build_url(**kwargs):
     return sys.argv[0] + "?" + urllib.parse.urlencode(kwargs)
 
+# Generic launcher for service and title IDs, using Android intents to open the respective app directly to the content.
+def launch_service(service_id, title_id=None):
+    if service_id == "com.netflix.ninja" and title_id:
+        launch_title(title_id)
+    elif service_id == "com.google.android.youtube.tv" and title_id:
+        xbmc.executebuiltin(
+            "StartAndroidActivity("
+            f"{service_id},"
+            "android.intent.action.VIEW,,"
+            f"{title_id},"
+        )
+    else:
+        xbmc.executebuiltin(
+            "StartAndroidActivity("
+            f"{service_id},"
+            "android.intent.action.VIEW,"
+            f"{title_id if title_id else 'android.intent.action.MAIN'},"
+            "android.intent.category.LEANBACK_LAUNCHER)"
+        )
+
 def launch_title(title_id):
     use_https = ADDON.getSettingBool("use_https")
     target = (
