@@ -1,3 +1,4 @@
+import os
 import sys
 import urllib.parse
 import subprocess
@@ -32,8 +33,17 @@ SERVICES = {
     "Peacock":"com.peacocktv.peacockandroid"
 }
 
+# Parse query parameters from the plugin URL passed by Kodi when the plugin is invoked. 
+# The parameters are expected to be in the format of a query string (e.g., "?action=play&title_id=12345"). 
+# The code uses urllib.parse.parse_qsl to parse the query string into a list of key-value pairs, which is
+# then converted into a dictionary for easier access to the parameters in the plugin's logic.
 params = dict(urllib.parse.parse_qsl(sys.argv[2].lstrip("?")))
 
+# Determine OS and Kodi version for compatibility checks
+IS_ANDROID = sys.platform.startswith("linux") and "ANDROID_ARGUMENT" in os.environ
+KODI_VERSION = int(xbmc.getInfoLabel("System.BuildVersion").split(".")[0])
+
+# This function retrieves the list of installed packages on the Android TV device by executing the "pm list packages" command and parsing its output. It returns a set of package
 def get_installed_packages():
     try:
         output = subprocess.check_output(["pm", "list", "packages"]).decode("utf-8", errors="ignore")
@@ -93,7 +103,7 @@ def show_root():
 
     xbmcplugin.endOfDirectory(HANDLE)
 
-params = dict(urllib.parse.parse_qsl(sys.argv[2][1:]))
+#params = dict(urllib.parse.parse_qsl(sys.argv[2][1:]))
 
 if params == {}:
     configure_services()

@@ -29,5 +29,5 @@ A possible implementation may allow for choosing whether to call the external ap
 
 ## Library integration
 
-At the concept staage, library entries will be created manually following Kodi naming guidelines and the strm file structure shown above. Future development may include tools for adding content usiing context menus in Kodi. This is however not a priority, since content addition to Kodi is usually managed on the storage level, and Kodi interface mostly takes care of metadata sccraping.
+At the concept stage, library entries will be created manually following Kodi naming guidelines and the strm file structure shown above. Future development may include tools for adding content using context menus in Kodi. This is however not a priority, since content addition to Kodi is usually managed on the storage level, and Kodi interface mostly takes care of metadata sccraping.
 
