@@ -57,7 +57,7 @@ def build_url(**kwargs):
 # Generic launcher for service and title IDs, using Android intents to open the respective app directly to the content.
 def launch_service(service_id, title_id=None):
     if service_id == "com.netflix.ninja" and title_id:
-        launch_title(title_id)
+        launch_netflix(title_id)
     elif service_id == "com.google.android.youtube.tv" and title_id:
         xbmc.executebuiltin(
             "StartAndroidActivity("
@@ -69,12 +69,12 @@ def launch_service(service_id, title_id=None):
         xbmc.executebuiltin(
             "StartAndroidActivity("
             f"{service_id},"
-            "android.intent.action.VIEW,"
+            "android.intent.action.VIEW,,"
             f"{title_id if title_id else 'android.intent.action.MAIN'},"
             "android.intent.category.LEANBACK_LAUNCHER)"
         )
 
-def launch_title(title_id):
+def launch_netflix(title_id):
     use_https = ADDON.getSettingBool("use_https")
     target = (
         f"https://www.netflix.com/watch/{title_id}"
@@ -129,6 +129,6 @@ if params == {}:
     configure_services()
 elif params.get("action") == "play":
     #xbmcgui.Dialog().notification('title_id: ', params["title_id"], xbmcgui.NOTIFICATION_INFO, 3000)
-    launch_title(params["title_id"])
+    launch_netflix(params["title_id"])
 else:
     show_root()
