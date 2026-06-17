@@ -45,6 +45,8 @@ KODI_VERSION = int(xbmc.getInfoLabel("System.BuildVersion").split(".")[0])
 
 # This function retrieves the list of installed packages on the Android TV device by executing the "pm list packages" command and parsing its output. It returns a set of package
 def get_installed_packages():
+    if not IS_ANDROID:
+        return set()
     try:
         output = subprocess.check_output(["pm", "list", "packages"]).decode("utf-8", errors="ignore")
         return {line.replace("package:", "").strip() for line in output.splitlines()}
@@ -98,23 +100,36 @@ def launch_netflix(title_id):
 
 def configure_services():
     installed_packages = get_installed_packages()
-    # Addon settings are updated based on the presence of each service's package
-    for service, package in SERVICES.items():
-        if package in installed_packages:
-            ADDON.setSettingBool(f"enable_{service.lower()}", True)
-        else:
-            ADDON.setSettingBool(f"enable_{service.lower()}", False)   
-    # Display the services in the UI with checkmarks for installed ones
-    for n,pkg in sorted(SERVICES.items()):
+    # Read package and enable settings defined in resources/settings.xml
+    for service in sorted(SERVICES.keys()):
+        default_pkg = SERVICES[service]
+        slug = service.lower().replace('+', '_').replace(' ', '_')
+        pkg_setting = f"package_{slug}"
+        enable_setting = f"enable_{slug}"
+
+        # Read configured package (fallback to default)
+        try:
+            pkg = ADDON.getSetting(pkg_setting) or default_pkg
+        except Exception:
+            pkg = default_pkg
+
         found = pkg in installed_packages
-        item = xbmcgui.ListItem(label=("v" if found else "x")+n)
+
+        # Update the enable flag so UI reflects detected services
+        try:
+            ADDON.setSettingBool(enable_setting, found)
+        except Exception:
+            pass
+
+        item = xbmcgui.ListItem(label=("v " if found else "x ") + service)
         if found:
-            url=sys.argv[0]+"?"+urllib.parse.urlencode({"action":"launch","package":pkg})
-            xbmcplugin.addDirectoryItem(HANDLE,url,item,False)
+            url = build_url(action="launch", package=pkg)
+            xbmcplugin.addDirectoryItem(HANDLE, url, item, False)
         else:
-            xbmcplugin.addDirectoryItem(HANDLE,"",item,False)
+            xbmcplugin.addDirectoryItem(HANDLE, "", item, False)
+
     xbmcplugin.endOfDirectory(HANDLE)
-       
+
 def show_root():
     for show in NETFLIX_SHOWS:
         url = build_url(action="play", title_id=show["id"])
