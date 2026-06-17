@@ -6,4 +6,45 @@
                  label="Use HTTPS Netflix URLs"
                  default="true"/>
     </category>
+
+    <category label="Services">
+        <setting id="package_netflix" type="string" label="Netflix package" default="com.netflix.ninja" />
+        <setting id="enable_netflix" type="bool" label="Enable Netflix integration" default="true" />
+
+        <setting id="package_youtube" type="string" label="YouTube package" default="com.google.android.youtube.tv" />
+        <setting id="enable_youtube" type="bool" label="Enable YouTube integration" default="true" />
+
+        <setting id="package_hbo_max" type="string" label="HBO Max package" default="com.wbd.stream" />
+        <setting id="enable_hbo_max" type="bool" label="Enable HBO Max integration" default="false" />
+
+        <setting id="package_viki" type="string" label="Viki package" default="com.viki.android" />
+        <setting id="enable_viki" type="bool" label="Enable Viki integration" default="false" />
+
+        <setting id="package_disney_plus" type="string" label="Disney+ package" default="com.disney.disneyplus" />
+        <setting id="enable_disney_plus" type="bool" label="Enable Disney+ integration" default="false" />
+
+        <setting id="package_prime_video" type="string" label="Prime Video package" default="com.amazon.amazonvideo.livingroom" />
+        <setting id="enable_prime_video" type="bool" label="Enable Prime Video integration" default="false" />
+
+        <setting id="package_apple_tv" type="string" label="Apple TV package" default="com.apple.atve.androidtv.appletv" />
+        <setting id="enable_apple_tv" type="bool" label="Enable Apple TV integration" default="false" />
+
+        <setting id="package_plex" type="string" label="Plex package" default="com.plexapp.android" />
+        <setting id="enable_plex" type="bool" label="Enable Plex integration" default="false" />
+
+        <setting id="package_jellyfin" type="string" label="Jellyfin package" default="org.jellyfin.androidtv" />
+        <setting id="enable_jellyfin" type="bool" label="Enable Jellyfin integration" default="false" />
+
+        <setting id="package_emby" type="string" label="Emby package" default="com.mb.androidtv" />
+        <setting id="enable_emby" type="bool" label="Enable Emby integration" default="false" />
+
+        <setting id="package_crunchyroll" type="string" label="Crunchyroll package" default="com.crunchyroll.crunchyroid" />
+        <setting id="enable_crunchyroll" type="bool" label="Enable Crunchyroll integration" default="false" />
+
+        <setting id="package_paramount_plus" type="string" label="Paramount+ package" default="com.cbs.ca" />
+        <setting id="enable_paramount_plus" type="bool" label="Enable Paramount+ integration" default="false" />
+
+        <setting id="package_peacock" type="string" label="Peacock package" default="com.peacocktv.peacockandroid" />
+        <setting id="enable_peacock" type="bool" label="Enable Peacock integration" default="false" />
+    </category>
 </settings>
