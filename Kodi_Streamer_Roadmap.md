@@ -9,19 +9,19 @@ I'd define a service-agnostic `.strm` format before adding more providers.
 For example:
 
 ```text
-stream://netflix/watch/82682341
+plugin://plugin.video.streamlauncher/?action=play&provider=netflix&content_id=82682341
 ```
 
 ```text
-stream://youtube/video/dQw4w9WgXcQ
+plugin://plugin.video.streamlauncher/?action=play&provider=youtube&content_id=dQw4w9WgXcQ
 ```
 
 ```text
-stream://viki/show/12345
+plugin://plugin.video.streamlauncher/?action=play&provider=viki&content_id=1271001v
 ```
 
 ```text
-stream://max/show/abcdef
+plugin://plugin.video.streamlauncher/?action=play&provider=max&content_id=abcdef
 ```
 
 Then your add-on becomes a generic router:
