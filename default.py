@@ -33,8 +33,39 @@ SERVICES = {
     "Peacock":"com.peacocktv.peacockandroid"
 }
 
-# Parse query parameters from the plugin URL passed by Kodi when the plugin is invoked. 
-# The parameters are expected to be in the format of a query string (e.g., "?action=play&title_id=12345"). 
+DEFAULT_PACKAGES = {
+    "netflix": "com.netflix.ninja",
+    "youtube": "com.google.android.youtube.tv",
+    "hbo_max": "com.wbd.stream",
+    "viki": "com.viki.android",
+    "disney_plus": "com.disney.disneyplus",
+    "prime_video": "com.amazon.amazonvideo.livingroom",
+    "apple_tv": "com.apple.atve.androidtv.appletv",
+    "plex": "com.plexapp.android",
+    "jellyfin": "org.jellyfin.androidtv",
+    "emby": "com.mb.androidtv",
+    "crunchyroll": "com.crunchyroll.crunchyroid",
+    "paramount_plus": "com.cbs.ca",
+    "peacock": "com.peacocktv.peacockandroid"
+}
+
+PROVIDER_ALIASES = {
+    "max": "hbo_max",
+    "hbo max": "hbo_max",
+    "hbo_max": "hbo_max",
+    "disney+": "disney_plus",
+    "disney plus": "disney_plus",
+    "primevideo": "prime_video",
+    "prime video": "prime_video",
+    "apple tv": "apple_tv",
+    "paramount+": "paramount_plus",
+    "paramount plus": "paramount_plus",
+    "youtube tv": "youtube",
+    "yt": "youtube"
+}
+
+# Parse query parameters from the plugin URL passed by Kodi when the plugin is invoked.
+# The parameters are expected to be in the format of a query string (e.g., "?action=play&provider=netflix&content_id=12345").
 # The code uses urllib.parse.parse_qsl to parse the query string into a list of key-value pairs, which is
 # then converted into a dictionary for easier access to the parameters in the plugin's logic.
 params = dict(urllib.parse.parse_qsl(sys.argv[2].lstrip("?")))
@@ -60,21 +91,35 @@ def build_url(**kwargs):
 def launch_service(service_id, title_id=None):
     if service_id == "com.netflix.ninja" and title_id:
         launch_netflix(title_id)
-    elif service_id == "com.google.android.youtube.tv" and title_id:
+        return
+
+    if not title_id:
+        xbmc.executebuiltin(
+            "StartAndroidActivity("
+            f"{service_id},"
+            "android.intent.action.MAIN,,"
+            "android.intent.category.LEANBACK_LAUNCHER)"
+        )
+        return
+
+    if service_id == "com.google.android.youtube.tv":
         xbmc.executebuiltin(
             "StartAndroidActivity("
             f"{service_id},"
             "android.intent.action.VIEW,,"
             f"{title_id},"
-        )
-    else:
-        xbmc.executebuiltin(
-            "StartAndroidActivity("
-            f"{service_id},"
-            "android.intent.action.VIEW,,"
-            f"{title_id if title_id else 'android.intent.action.MAIN'},"
             "android.intent.category.LEANBACK_LAUNCHER)"
         )
+        return
+
+    xbmc.executebuiltin(
+        "StartAndroidActivity("
+        f"{service_id},"
+        "android.intent.action.VIEW,,"
+        f"{title_id},"
+        "android.intent.category.LEANBACK_LAUNCHER)"
+    )
+
 
 def launch_netflix(title_id):
     use_https = ADDON.getSettingBool("use_https")
@@ -83,9 +128,7 @@ def launch_netflix(title_id):
         if use_https else
         f"https://www.netflix.com/title/{title_id}"
     )
-
     extras_json = '[{"key":"source","value":"30","type":"string"}]'
-    
     xbmc.executebuiltin(
         "StartAndroidActivity("
         "com.netflix.ninja,"
@@ -130,6 +173,55 @@ def configure_services():
 
     xbmcplugin.endOfDirectory(HANDLE)
 
+def get_provider_key(provider):
+    if not provider:
+        return None
+
+    key = provider.strip().lower().replace(' ', '_')
+    return PROVIDER_ALIASES.get(key, key)
+
+
+def get_package_for_provider(provider_key):
+    if not provider_key:
+        return None
+
+    pkg_setting = f"package_{provider_key}"
+    try:
+        return ADDON.getSetting(pkg_setting) or DEFAULT_PACKAGES.get(provider_key)
+    except Exception:
+        return DEFAULT_PACKAGES.get(provider_key)
+
+
+def handle_play_action(provider, content_id):
+    provider_key = get_provider_key(provider)
+    content_key = content_id
+
+    if not provider_key or not content_key:
+        xbmcgui.Dialog().notification(
+            'Stream Launcher',
+            'Missing provider or content_id',
+            xbmcgui.NOTIFICATION_WARNING,
+            3000
+        )
+        return
+
+    if provider_key == 'netflix':
+        launch_netflix(content_key)
+        return
+
+    package = get_package_for_provider(provider_key)
+    if not package:
+        xbmcgui.Dialog().notification(
+            'Stream Launcher',
+            f'Unsupported provider: {provider}',
+            xbmcgui.NOTIFICATION_WARNING,
+            3000
+        )
+        return
+
+    launch_service(package, content_key)
+
+
 def show_root():
     for show in NETFLIX_SHOWS:
         url = build_url(action="play", title_id=show["id"])
@@ -143,7 +235,9 @@ def show_root():
 if params == {}:
     configure_services()
 elif params.get("action") == "play":
-    #xbmcgui.Dialog().notification('title_id: ', params["title_id"], xbmcgui.NOTIFICATION_INFO, 3000)
-    launch_netflix(params["title_id"])
+    handle_play_action(
+        params.get("provider"),
+        params.get("content_id")
+    )
 else:
     show_root()
