@@ -68,6 +68,13 @@ SERVICE_CONFIGS = {
         "requires_content": True,
         "category": "android.intent.category.LEANBACK_LAUNCHER",
     },
+    "hbo_max": {
+        "package": "com.wbd.stream",
+        "action": "android.intent.action.VIEW",
+        "requires_content": True,
+        "category": "android.intent.category.LEANBACK_LAUNCHER",
+        # Add content_formatter, extras, flags, or component as needed
+    },
     "default": {
         "action": "android.intent.action.VIEW",
         "requires_content": True,
