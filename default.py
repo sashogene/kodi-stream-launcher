@@ -51,6 +51,7 @@ DEFAULT_PACKAGES = {
 
 # Service configuration structure defining launch parameters for each service.
 # This allows unified handling of different services with varying parameter requirements.
+# content_formatter (optional): service key for looking up format template in addon settings
 SERVICE_CONFIGS = {
     "netflix": {
         "package": "com.netflix.ninja",
@@ -60,20 +61,91 @@ SERVICE_CONFIGS = {
         "component": "com.netflix.ninja.MainActivity",
         "extras": '[{"key":"source","value":"30","type":"string"}]',
         "flags": "0x14000000",
-        "content_formatter": "netflix_url",  # Uses addon setting to format URL
+        "content_formatter": "netflix",
     },
     "youtube": {
         "package": "com.google.android.youtube.tv",
         "action": "android.intent.action.VIEW",
         "requires_content": True,
         "category": "android.intent.category.LEANBACK_LAUNCHER",
+        "content_formatter": "youtube",
     },
     "hbo_max": {
         "package": "com.wbd.stream",
         "action": "android.intent.action.VIEW",
         "requires_content": True,
         "category": "android.intent.category.LEANBACK_LAUNCHER",
-        # Add content_formatter, extras, flags, or component as needed
+        "content_formatter": "hbo_max",
+    },
+    "viki": {
+        "package": "com.viki.android",
+        "action": "android.intent.action.VIEW",
+        "requires_content": True,
+        "category": "android.intent.category.LEANBACK_LAUNCHER",
+        "content_formatter": "viki",
+    },
+    "disney_plus": {
+        "package": "com.disney.disneyplus",
+        "action": "android.intent.action.VIEW",
+        "requires_content": True,
+        "category": "android.intent.category.LEANBACK_LAUNCHER",
+        "content_formatter": "disney_plus",
+    },
+    "prime_video": {
+        "package": "com.amazon.amazonvideo.livingroom",
+        "action": "android.intent.action.VIEW",
+        "requires_content": True,
+        "category": "android.intent.category.LEANBACK_LAUNCHER",
+        "content_formatter": "prime_video",
+    },
+    "apple_tv": {
+        "package": "com.apple.atve.androidtv.appletv",
+        "action": "android.intent.action.VIEW",
+        "requires_content": True,
+        "category": "android.intent.category.LEANBACK_LAUNCHER",
+        "content_formatter": "apple_tv",
+    },
+    "plex": {
+        "package": "com.plexapp.android",
+        "action": "android.intent.action.VIEW",
+        "requires_content": True,
+        "category": "android.intent.category.LEANBACK_LAUNCHER",
+        "content_formatter": "plex",
+    },
+    "jellyfin": {
+        "package": "org.jellyfin.androidtv",
+        "action": "android.intent.action.VIEW",
+        "requires_content": True,
+        "category": "android.intent.category.LEANBACK_LAUNCHER",
+        "content_formatter": "jellyfin",
+    },
+    "emby": {
+        "package": "com.mb.androidtv",
+        "action": "android.intent.action.VIEW",
+        "requires_content": True,
+        "category": "android.intent.category.LEANBACK_LAUNCHER",
+        "content_formatter": "emby",
+    },
+    "crunchyroll": {
+        "package": "com.crunchyroll.crunchyroid",
+        "action": "android.intent.action.VIEW",
+        "requires_content": True,
+        "category": "android.intent.category.LEANBACK_LAUNCHER",
+        "content_formatter": "crunchyroll",
+    },
+    "paramount_plus": {
+        "package": "com.cbs.ca",
+        "action": "android.intent.action.VIEW",
+        "requires_content": True,
+        "category": "android.intent.category.LEANBACK_LAUNCHER",
+        "content_formatter": "paramount_plus",
+    },
+    "peacock": {
+        "package": "com.peacocktv.peacockandroid",
+        "action": "android.intent.action.VIEW",
+        "requires_content": True,
+        "category": "android.intent.category.LEANBACK_LAUNCHER",
+        "content_formatter": "peacock",
     },
     "default": {
         "action": "android.intent.action.VIEW",
@@ -125,7 +197,7 @@ def build_url(**kwargs):
 # command for Netflix using the title_id and addon settings.
 # It is kept separate from the generic launch_service function
 # to allow for specific handling of Netflix's unique URL formatting and extras.
-def launch_netflix(title_id):
+def legacy_launch_netflix(title_id):
     use_https = ADDON.getSettingBool("use_https")
     target = (
         f"https://www.netflix.com/watch/{title_id}"
@@ -146,21 +218,42 @@ def launch_netflix(title_id):
     )
 
 # Content formatters for services with special URL/parameter requirements
-def format_netflix_content(title_id):
-    """Format Netflix content URL based on addon settings."""
-    use_https = ADDON.getSettingBool("use_https")
-    return (
-        f"https://www.netflix.com/watch/{title_id}"
-        if use_https else
-        f"https://www.netflix.com/title/{title_id}"
-    )
+def format_content_url(service_key, title_id):
+    """
+    Format content URL using service-specific template from addon settings.
+    
+    Args:
+        service_key: Service identifier (e.g., 'netflix', 'youtube', 'viki')
+        title_id: The content/title identifier to format
+    
+    Returns:
+        Formatted URL with title_id substituted into the template
+    """
+    format_setting_key = f"format_{service_key}"
+    format_template = ADDON.getSetting(format_setting_key)
+    
+    if not format_template:
+        # Fallback: return title_id as-is if no format template is configured
+        return title_id
+    
+    # Replace {title_id} placeholder with the actual content ID
+    return format_template.format(title_id=title_id)
 
 
 def format_content(content_id, formatter_type=None):
-    """Format content according to service-specific requirements."""
-    if formatter_type == "netflix_url":
-        return format_netflix_content(content_id)
-    # Default: return content_id as-is (used for YouTube and generic services)
+    """
+    Format content according to service-specific requirements.
+    
+    Args:
+        content_id: The content identifier to format
+        formatter_type: Service key for looking up format template (e.g., 'netflix', 'youtube')
+    
+    Returns:
+        Formatted content URL or content_id as-is if no formatter specified
+    """
+    if formatter_type:
+        return format_content_url(formatter_type, content_id)
+    # Default: return content_id as-is (used for generic services)
     return content_id
 
 

@@ -10,41 +10,54 @@
     <category label="Services">
         <setting id="package_netflix" type="string" label="Netflix package" default="com.netflix.ninja" />
         <setting id="enable_netflix" type="bool" label="Enable Netflix integration" default="true" />
+        <setting id="format_netflix" type="string" label="Netflix URL format" default="https://www.netflix.com/title/{title_id}" />
 
         <setting id="package_youtube" type="string" label="YouTube package" default="com.google.android.youtube.tv" />
         <setting id="enable_youtube" type="bool" label="Enable YouTube integration" default="true" />
+        <setting id="format_youtube" type="string" label="YouTube URL format" default="https://www.youtube.com/watch?v={title_id}" />
 
         <setting id="package_hbo_max" type="string" label="HBO Max package" default="com.wbd.stream" />
         <setting id="enable_hbo_max" type="bool" label="Enable HBO Max integration" default="false" />
+        <setting id="format_hbo_max" type="string" label="HBO Max URL format" default="https://www.hbomax.com/watch/{title_id}" />
 
         <setting id="package_viki" type="string" label="Viki package" default="com.viki.android" />
         <setting id="enable_viki" type="bool" label="Enable Viki integration" default="false" />
+        <setting id="format_viki" type="string" label="Viki URL format" default="https://www.viki.com/videos/{title_id}" />
 
         <setting id="package_disney_plus" type="string" label="Disney+ package" default="com.disney.disneyplus" />
         <setting id="enable_disney_plus" type="bool" label="Enable Disney+ integration" default="false" />
+        <setting id="format_disney_plus" type="string" label="Disney+ URL format" default="https://www.disneyplus.com/video/{title_id}" />
 
         <setting id="package_prime_video" type="string" label="Prime Video package" default="com.amazon.amazonvideo.livingroom" />
         <setting id="enable_prime_video" type="bool" label="Enable Prime Video integration" default="false" />
+        <setting id="format_prime_video" type="string" label="Prime Video URL format" default="https://www.amazon.com/dp/{title_id}" />
 
         <setting id="package_apple_tv" type="string" label="Apple TV package" default="com.apple.atve.androidtv.appletv" />
         <setting id="enable_apple_tv" type="bool" label="Enable Apple TV integration" default="false" />
+        <setting id="format_apple_tv" type="string" label="Apple TV URL format" default="https://tv.apple.com/{title_id}" />
 
         <setting id="package_plex" type="string" label="Plex package" default="com.plexapp.android" />
         <setting id="enable_plex" type="bool" label="Enable Plex integration" default="false" />
+        <setting id="format_plex" type="string" label="Plex URL format" default="https://app.plex.tv/web/#!/server/{title_id}" />
 
         <setting id="package_jellyfin" type="string" label="Jellyfin package" default="org.jellyfin.androidtv" />
         <setting id="enable_jellyfin" type="bool" label="Enable Jellyfin integration" default="false" />
+        <setting id="format_jellyfin" type="string" label="Jellyfin URL format" default="https://jellyfin.local/web/index.html#!/item?id={title_id}" />
 
         <setting id="package_emby" type="string" label="Emby package" default="com.mb.androidtv" />
         <setting id="enable_emby" type="bool" label="Enable Emby integration" default="false" />
+        <setting id="format_emby" type="string" label="Emby URL format" default="https://emby.media/emby/web/itemdetails.html?id={title_id}" />
 
         <setting id="package_crunchyroll" type="string" label="Crunchyroll package" default="com.crunchyroll.crunchyroid" />
         <setting id="enable_crunchyroll" type="bool" label="Enable Crunchyroll integration" default="false" />
+        <setting id="format_crunchyroll" type="string" label="Crunchyroll URL format" default="https://www.crunchyroll.com/watch/{title_id}" />
 
         <setting id="package_paramount_plus" type="string" label="Paramount+ package" default="com.cbs.ca" />
         <setting id="enable_paramount_plus" type="bool" label="Enable Paramount+ integration" default="false" />
+        <setting id="format_paramount_plus" type="string" label="Paramount+ URL format" default="https://www.paramountplus.com/shows/{title_id}" />
 
         <setting id="package_peacock" type="string" label="Peacock package" default="com.peacocktv.peacockandroid" />
         <setting id="enable_peacock" type="bool" label="Enable Peacock integration" default="false" />
+        <setting id="format_peacock" type="string" label="Peacock URL format" default="https://www.peacocktv.com/watch/{title_id}" />
     </category>
 </settings>
