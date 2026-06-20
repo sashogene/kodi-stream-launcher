@@ -9,3 +9,4 @@ ADDON_FILES_TO_ZIP=(
 cd ..
 rm kodi-stream-launcher.zip
 zip kodi-stream-launcher.zip "${ADDON_FILES_TO_ZIP[@]}" 
+cp kodi-stream-launcher.zip /nfs/Public/Kodi_development/

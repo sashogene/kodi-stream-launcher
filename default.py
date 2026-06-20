@@ -81,7 +81,7 @@ SERVICE_CONFIGS = {
         "package": "com.viki.android",
         "action": "android.intent.action.VIEW",
         "requires_content": True,
-        "category": "android.intent.category.LEANBACK_LAUNCHER",
+        "category": "",
         "content_formatter": "viki",
     },
     "disney_plus": {
@@ -115,7 +115,6 @@ SERVICE_CONFIGS = {
     "default": {
         "action": "android.intent.action.VIEW",
         "requires_content": True,
-        "category": "android.intent.category.LEANBACK_LAUNCHER",
     }
 }
 
