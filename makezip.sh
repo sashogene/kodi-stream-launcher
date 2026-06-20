@@ -3,7 +3,7 @@
 ADDON_FILES_TO_ZIP=(
     "kodi-stream-launcher/addon.xml"
     "kodi-stream-launcher/resources/settings.xml"
-    "kodi-stream-launcher/icon.png"
+    "kodi-stream-launcher/Kodi_launcher.png"
     "kodi-stream-launcher/default.py"
 )
 cd ..

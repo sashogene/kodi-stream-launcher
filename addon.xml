@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon id="plugin.video.streamlauncher"
-       name="Netflix Shortcuts"
-       version="1.0.2"
+       name="External Stream Launcher"
+       version="1.0.0"
        provider-name="Sasho">
 
     <requires>
@@ -18,7 +18,7 @@
         <description>Launch external app titles directly from Kodi.</description>
         <platform>android</platform>
         <assets>
-		    <icon>icon.png</icon>
+		    <icon>Kodi_launcher.png</icon>
 	    </assets>
     </extension>
 </addon>
