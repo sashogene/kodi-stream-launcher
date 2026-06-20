@@ -8,37 +8,37 @@
     </category>
 
     <category label="Services">
-        <setting id="package_netflix" type="string" label="Netflix package" default="com.netflix.ninja" />
+        <setting id="package_netflix" typr="text" label="Netflix package" default="com.netflix.ninja" />
         <setting id="enable_netflix" type="bool" label="Enable Netflix integration" default="true" />
-        <setting id="format_netflix" type="string" label="Netflix URL format" default="https://www.netflix.com/title/{title_id}" />
+        <setting id="format_netflix" typr="text" label="Netflix URL format" default="https://www.netflix.com/title/{title_id}" />
 
-        <setting id="package_youtube" type="string" label="YouTube package" default="com.google.android.youtube.tv" />
+        <setting id="package_youtube" typr="text" label="YouTube package" default="com.google.android.youtube.tv" />
         <setting id="enable_youtube" type="bool" label="Enable YouTube integration" default="true" />
-        <setting id="format_youtube" type="string" label="YouTube URL format" default="https://www.youtube.com/watch?v={title_id}" />
+        <setting id="format_youtube" typr="text" label="YouTube URL format" default="https://www.youtube.com/watch?v={title_id}" />
 
-        <setting id="package_hbo_max" type="string" label="HBO Max package" default="com.wbd.stream" />
+        <setting id="package_hbo_max" typr="text" label="HBO Max package" default="com.wbd.stream" />
         <setting id="enable_hbo_max" type="bool" label="Enable HBO Max integration" default="true" />
-        <setting id="format_hbo_max" type="string" label="HBO Max URL format" default="https://www.hbomax.com/watch/{title_id}" />
+        <setting id="format_hbo_max" typr="text" label="HBO Max URL format" default="https://www.hbomax.com/watch/{title_id}" />
 
-        <setting id="package_viki" type="string" label="Viki package" default="com.viki.android" />
+        <setting id="package_viki" typr="text" label="Viki package" default="com.viki.android" />
         <setting id="enable_viki" type="bool" label="Enable Viki integration" default="true" />
-        <setting id="format_viki" type="string" label="Viki URL format" default="https://www.viki.com/videos/{title_id}" />
+        <setting id="format_viki" typr="text" label="Viki URL format" default="https://www.viki.com/videos/{title_id}" />
 
-        <setting id="package_disney_plus" type="string" label="Disney+ package" default="com.disney.disneyplus" />
+        <setting id="package_disney_plus" typr="text" label="Disney+ package" default="com.disney.disneyplus" />
         <setting id="enable_disney_plus" type="bool" label="Enable Disney+ integration" default="false" />
-        <setting id="format_disney_plus" type="string" label="Disney+ URL format" default="https://www.disneyplus.com/video/{title_id}" />
+        <setting id="format_disney_plus" typr="text" label="Disney+ URL format" default="https://www.disneyplus.com/video/{title_id}" />
 
-        <setting id="package_prime_video" type="string" label="Prime Video package" default="com.amazon.amazonvideo.livingroom" />
+        <setting id="package_prime_video" typr="text" label="Prime Video package" default="com.amazon.amazonvideo.livingroom" />
         <setting id="enable_prime_video" type="bool" label="Enable Prime Video integration" default="false" />
-        <setting id="format_prime_video" type="string" label="Prime Video URL format" default="https://www.amazon.com/dp/{title_id}" />
+        <setting id="format_prime_video" typr="text" label="Prime Video URL format" default="https://www.amazon.com/dp/{title_id}" />
 
-        <setting id="package_apple_tv" type="string" label="Apple TV package" default="com.apple.atve.androidtv.appletv" />
+        <setting id="package_apple_tv" typr="text" label="Apple TV package" default="com.apple.atve.androidtv.appletv" />
         <setting id="enable_apple_tv" type="bool" label="Enable Apple TV integration" default="false" />
-        <setting id="format_apple_tv" type="string" label="Apple TV URL format" default="https://tv.apple.com/{title_id}" />
+        <setting id="format_apple_tv" typr="text" label="Apple TV URL format" default="https://tv.apple.com/{title_id}" />
 
-        <setting id="package_crunchyroll" type="string" label="Crunchyroll package" default="com.crunchyroll.crunchyroid" />
+        <setting id="package_crunchyroll" typr="text" label="Crunchyroll package" default="com.crunchyroll.crunchyroid" />
         <setting id="enable_crunchyroll" type="bool" label="Enable Crunchyroll integration" default="false" />
-        <setting id="format_crunchyroll" type="string" label="Crunchyroll URL format" default="https://www.crunchyroll.com/watch/{title_id}" />
+        <setting id="format_crunchyroll" typr="text" label="Crunchyroll URL format" default="https://www.crunchyroll.com/watch/{title_id}" />
 
     </category>
 </settings>
