@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <settings>
     <category label="General">
-        <setting id="use_https"
-                 type="bool"
-                 label="Use HTTPS Netflix URLs"
-                 default="true"/>
+        <setting id="debug_mode" type="bool" label="Enable debug mode" default="false"/>
     </category>
 
     <category label="Services">
