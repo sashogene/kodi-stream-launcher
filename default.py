@@ -300,9 +300,12 @@ def launch_service(package_id, content_id=None):
 def configure_services():
     installed_packages = get_installed_packages()
     # Read package and enable settings defined in resources/settings.xml
+    # addon_path = ADDON.getAddonInfo("path")
+    # icon_path = os.path.join(addon_path, "tick_and_cross.png")
+    
     for service in sorted(SERVICES.keys()):
         default_pkg = SERVICES[service]
-        slug = service.lower().replace('+', '_').replace(' ', '_')
+        slug = service.lower().replace('+', '_plus').replace(' ', '_')
         pkg_setting = f"package_{slug}"
         enable_setting = f"enable_{slug}"
 
@@ -320,7 +323,13 @@ def configure_services():
         except Exception:
             pass
 
-        item = xbmcgui.ListItem(label=("v " if found else "x ") + service)
+        # Create label with service name and package info
+        status = "✓" if found else "✗"
+        label = f"[{status}] {service}\n{pkg}"
+        
+        item = xbmcgui.ListItem(label=label)
+        # item.setArt({"icon": icon_path})
+        
         if found:
             url = build_url(action="launch", package=pkg)
             xbmcplugin.addDirectoryItem(HANDLE, url, item, False)
