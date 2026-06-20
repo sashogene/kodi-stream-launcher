@@ -237,7 +237,13 @@ def format_content_url(service_key, title_id):
         return title_id
     
     # Replace {title_id} placeholder with the actual content ID
-    return format_template.format(title_id=title_id)
+    formatted_url = format_template.format(title_id=title_id)
+    
+    # Debug: Display formatted URL in popup and wait for OK
+    dialog = xbmcgui.Dialog()
+    dialog.ok("Formatted URL (Debug)", formatted_url)
+    
+    return formatted_url
 
 
 def format_content(content_id, formatter_type=None):
