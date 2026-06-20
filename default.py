@@ -253,8 +253,9 @@ def format_content_url(service_key, title_id):
     formatted_url = format_template.format(title_id=title_id)
     
     # Debug: Display formatted URL in popup and wait for OK
-    dialog = xbmcgui.Dialog()
-    dialog.ok("Formatted URL (Debug)", formatted_url)
+    if ADDON.getSettingBool("debug_mode"):
+        dialog = xbmcgui.Dialog()
+        dialog.ok("Formatted URL (Debug)", formatted_url)
     
     return formatted_url
 
@@ -449,6 +450,9 @@ def handle_play_action(provider, content_id):
 
     # Use unified launcher for all services
     launch_service(package, content_key)
+    
+    # Close plugin directory (succeeded=False means no content to play, just launching the app)
+    xbmcplugin.endOfDirectory(HANDLE, succeeded=False)
 
 
 def show_root():
