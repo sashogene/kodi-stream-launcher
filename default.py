@@ -133,6 +133,24 @@ PROVIDER_ALIASES = {
     "yt": "youtube"
 }
 
+# Service package name variations - maps provider keys to lists of possible package names and wildcard patterns
+# This allows discovering the same service under different package names or versions
+PACKAGE_VARIATIONS = {
+    "netflix": ["com.netflix.ninja", "netflix*"],
+    "youtube": ["com.google.android.youtube.tv", "youtube*"],
+    "hbo_max": ["com.wbd.stream", "com.hbo*", "com.maxgo*"],
+    "viki": ["com.viki.android", "com.viki*"],
+    "disney_plus": ["com.disney.disneyplus", "com.disney*"],
+    "prime_video": ["com.amazon.amazonvideo.livingroom", "amazonvideo*"],
+    "apple_tv": ["com.apple.atve.androidtv.appletv", "appletv*"],
+    "plex": ["com.plexapp.android", "com.plex*"],
+    "jellyfin": ["org.jellyfin.androidtv", "jellyfin*"],
+    "emby": ["com.mb.androidtv", "com.mb*"],
+    "crunchyroll": ["com.crunchyroll.crunchyroid", "crunchyroll*"],
+    "paramount_plus": ["com.cbs.ca", "com.paramount*"],
+    "peacock": ["com.peacocktv.peacockandroid", "com.peacocktv*"],
+}
+
 # Parse query parameters from the plugin URL passed by Kodi when the plugin is invoked.
 # The parameters are expected to be in the format of a query string (e.g., "?action=play&provider=netflix&content_id=12345").
 # The code uses urllib.parse.parse_qsl to parse the query string into a list of key-value pairs, which is
@@ -152,6 +170,37 @@ def get_installed_packages():
         return {line.replace("package:", "").strip() for line in output.splitlines()}
     except Exception:
         return set()
+
+def find_package_for_service(service_key, installed_packages):
+    """
+    Find the actual installed package for a service by checking multiple possible names and wildcard patterns.
+    
+    Args:
+        service_key: Service identifier (e.g., 'netflix', 'youtube')
+        installed_packages: Set of installed package names from the system
+    
+    Returns:
+        Tuple of (found_package, is_exact_match) or (None, False) if not found
+    """
+    if service_key not in PACKAGE_VARIATIONS:
+        return None, False
+    
+    variations = PACKAGE_VARIATIONS[service_key]
+    
+    # First, try exact matches
+    for variation in variations:
+        if not '*' in variation and variation in installed_packages:
+            return variation, True
+    
+    # Then, try wildcard patterns
+    for variation in variations:
+        if '*' in variation:
+            pattern = variation.replace('*', '')
+            for pkg in installed_packages:
+                if pkg.startswith(pattern):
+                    return pkg, False
+    
+    return None, False
 
 def build_url(**kwargs):
     return sys.argv[0] + "?" + urllib.parse.urlencode(kwargs)
@@ -303,18 +352,31 @@ def configure_services():
     # icon_path = os.path.join(addon_path, "tick_and_cross.png")
     
     for service in sorted(SERVICES.keys()):
-        default_pkg = SERVICES[service]
         slug = service.lower().replace('+', '_plus').replace(' ', '_')
         pkg_setting = f"package_{slug}"
         enable_setting = f"enable_{slug}"
 
-        # Read configured package (fallback to default)
+        # First, try to find the package by checking variations and wildcards
+        found_pkg, is_exact = find_package_for_service(slug, installed_packages)
+        
+        # If not found, try the configured setting as fallback
+        if not found_pkg:
+            try:
+                found_pkg = ADDON.getSetting(pkg_setting)
+            except Exception:
+                pass
+        
+        # If still not found, use the default
+        if not found_pkg:
+            found_pkg = DEFAULT_PACKAGES.get(slug)
+        
+        found = found_pkg in installed_packages if found_pkg else False
+        
+        # Save the actual found package to settings (or the default if not found)
         try:
-            pkg = ADDON.getSetting(pkg_setting) or default_pkg
+            ADDON.setSetting(pkg_setting, found_pkg or "")
         except Exception:
-            pkg = default_pkg
-
-        found = pkg in installed_packages
+            pass
 
         # Update the enable flag so UI reflects detected services
         try:
@@ -324,13 +386,13 @@ def configure_services():
 
         # Create label with service name and package info
         status = "✓" if found else "✗"
-        label = f"[{status}] {service}\n{pkg}"
+        label = f"[{status}] {service}\n{found_pkg if found_pkg else 'Not found'}"
         
         item = xbmcgui.ListItem(label=label)
         # item.setArt({"icon": icon_path})
         
         if found:
-            url = build_url(action="launch", package=pkg)
+            url = build_url(action="launch", package=found_pkg)
             xbmcplugin.addDirectoryItem(HANDLE, url, item, False)
         else:
             xbmcplugin.addDirectoryItem(HANDLE, "", item, False)
@@ -351,9 +413,15 @@ def get_package_for_provider(provider_key):
 
     pkg_setting = f"package_{provider_key}"
     try:
-        return ADDON.getSetting(pkg_setting) or DEFAULT_PACKAGES.get(provider_key)
+        # Try to get from settings first (which may have been discovered/saved)
+        saved_pkg = ADDON.getSetting(pkg_setting)
+        if saved_pkg:
+            return saved_pkg
     except Exception:
-        return DEFAULT_PACKAGES.get(provider_key)
+        pass
+    
+    # Fall back to default
+    return DEFAULT_PACKAGES.get(provider_key)
 
 
 def handle_play_action(provider, content_id):
