@@ -1,5 +1,12 @@
 # Next steps in priority order
 
+## 1. Iron out errors during start-up
+## 2. Ad icons and artwork
+## 3. Create a demo page
+## 4. Make package
+## 5. See the rest of the roadmap
+
+
 ## 1. Formalize the `.strm` format (Highest ROI)
 
 Right now we've proven that Kodi can act as a launcher for external streaming services.
@@ -36,6 +43,8 @@ launchers[service](content_id)
 This will make adding new services trivial.
 
 ---
+
+* Done!
 
 ## 2. Create a launcher abstraction layer
 
@@ -75,6 +84,8 @@ Then support for a new service is mostly configuration.
 
 ---
 
+* Done!
+
 ## 3. YouTube should probably come next
 
 YouTube TV is usually much friendlier to deep linking than Netflix.
@@ -96,6 +107,8 @@ depending on device.
 If you can get YouTube working, you'll have a second validation that the framework is generic.
 
 ---
+
+* Done!
 
 ## 4. HBO Max / Max
 
