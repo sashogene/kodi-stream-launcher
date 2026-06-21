@@ -447,12 +447,12 @@ def handle_play_action(provider, content_id):
             3000
         )
         return
-
-    # Use unified launcher for all services
-    launch_service(package, content_key)
     
     # Close plugin directory (succeeded=False means no content to play, just launching the app)
     xbmcplugin.endOfDirectory(HANDLE, succeeded=False)
+
+    # Use unified launcher for all services
+    launch_service(package, content_key)
 
 
 def show_root():
