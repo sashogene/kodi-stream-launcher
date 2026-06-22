@@ -139,16 +139,16 @@ PACKAGE_VARIATIONS = {
     "netflix": ["com.netflix.ninja", "netflix*"],
     "youtube": ["com.google.android.youtube.tv", "youtube*"],
     "hbo_max": ["com.wbd.stream", "com.hbo*", "com.maxgo*"],
-    "viki": ["com.viki.android", "com.viki*"],
-    "disney_plus": ["com.disney.disneyplus", "com.disney*"],
+    "viki": ["com.viki.android", "viki*"],
+    "disney_plus": ["com.disney.disneyplus", "disney*"],
     "prime_video": ["com.amazon.amazonvideo.livingroom", "amazonvideo*"],
     "apple_tv": ["com.apple.atve.androidtv.appletv", "appletv*"],
     "plex": ["com.plexapp.android", "com.plex*"],
     "jellyfin": ["org.jellyfin.androidtv", "jellyfin*"],
     "emby": ["com.mb.androidtv", "com.mb*"],
     "crunchyroll": ["com.crunchyroll.crunchyroid", "crunchyroll*"],
-    "paramount_plus": ["com.cbs.ca", "com.paramount*"],
-    "peacock": ["com.peacocktv.peacockandroid", "com.peacocktv*"],
+    "paramount_plus": ["com.cbs.ca", "paramount*"],
+    "peacock": ["com.peacocktv.peacockandroid", "peacocktv*"],
 }
 
 # Parse query parameters from the plugin URL passed by Kodi when the plugin is invoked.
@@ -197,7 +197,7 @@ def find_package_for_service(service_key, installed_packages):
         if '*' in variation:
             pattern = variation.replace('*', '')
             for pkg in installed_packages:
-                if pkg.startswith(pattern):
+                if pattern in pkg:
                     return pkg, False
     
     return None, False
@@ -371,7 +371,7 @@ def configure_services():
         if not found_pkg:
             found_pkg = DEFAULT_PACKAGES.get(slug)
         
-        found = found_pkg in installed_packages if found_pkg else False
+        found = found_pkg in installed_packages # if found_pkg else False
         
         # Save the actual found package to settings (or the default if not found)
         try:
