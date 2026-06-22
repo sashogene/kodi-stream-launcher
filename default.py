@@ -449,11 +449,13 @@ def handle_play_action(provider, content_id):
         return
     
     # Close plugin directory (succeeded=False means no content to play, just launching the app)
-    xbmcplugin.endOfDirectory(HANDLE, succeeded=False)
+    # xbmcplugin.endOfDirectory(HANDLE, succeeded=False)
 
     # Use unified launcher for all services
     launch_service(package, content_key)
-
+    
+    # Trying to prevent Kodi from showing "No stream found" by setting a resolved URL that points back to the plugin with the content info.
+    xbmcplugin.setResolvedUrl(1, True, xbmcgui.ListItem(path="plugin://"+package+"/?_play="+content_key))
 
 def show_root():
     for show in NETFLIX_SHOWS:
