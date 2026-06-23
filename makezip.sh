@@ -6,7 +6,7 @@ ADDON_FILES_TO_ZIP=(
     "kodi-stream-launcher/Kodi_launcher.png"
     "kodi-stream-launcher/default.py"
 )
-cd ..
-rm kodi-stream-launcher.zip
-zip kodi-stream-launcher.zip "${ADDON_FILES_TO_ZIP[@]}" 
-cp kodi-stream-launcher.zip /nfs/Public/Kodi_development/
+#cd release
+rm release/kodi-stream-launcher.zip
+zip release/kodi-stream-launcher.zip "${ADDON_FILES_TO_ZIP[@]}" 
+cp release/kodi-stream-launcher.zip /nfs/Public/Kodi_development/
