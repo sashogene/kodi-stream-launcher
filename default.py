@@ -349,13 +349,14 @@ def launch_service(package_id, content_id=None):
 def configure_services():
     installed_packages = get_installed_packages()
     # Read package and enable settings defined in resources/settings.xml
-    # addon_path = ADDON.getAddonInfo("path")
+    addon_path = ADDON.getAddonInfo("path")
     # icon_path = os.path.join(addon_path, "tick_and_cross.png")
     
     for service in sorted(SERVICES.keys()):
         slug = service.lower().replace('+', '_plus').replace(' ', '_')
         pkg_setting = f"package_{slug}"
         enable_setting = f"enable_{slug}"
+        icon_image = f"icon_{slug}.png"
 
         # First, try to find the package by checking variations and wildcards
         found_pkg, is_exact = find_package_for_service(slug, installed_packages)
@@ -390,7 +391,7 @@ def configure_services():
         label = f"[{status}] {service}\n{found_pkg if found_pkg else 'Not found'}"
         
         item = xbmcgui.ListItem(label=label)
-        # item.setArt({"icon": icon_path})
+        item.setArt({"icon": os.path.join(addon_path, "resources", icon_image)})  # Set icon if available
         
         if found:
             url = build_url(action="launch", package=found_pkg)
