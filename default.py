@@ -211,11 +211,11 @@ def build_url(**kwargs):
 # It is kept separate from the generic launch_service function
 # to allow for specific handling of Netflix's unique URL formatting and extras.
 def legacy_launch_netflix(title_id):
-    use_https = ADDON.getSettingBool("use_https")
+    # use_https = ADDON.getSettingBool("use_https")
     target = (
         f"https://www.netflix.com/watch/{title_id}"
-        if use_https else
-        f"https://www.netflix.com/title/{title_id}"
+        # if use_https else
+        # f"https://www.netflix.com/title/{title_id}"
     )
     extras_json = '[{"key":"source","value":"30","type":"string"}]'
     xbmc.executebuiltin(
@@ -342,6 +342,8 @@ def launch_service(package_id, content_id=None):
     
     command_parts.append(")")
     
+    xbmcplugin.addDirectoryItem(HANDLE, "", xbmcgui.ListItem(label=" "), False)
+
     command = "".join(command_parts)
     xbmc.executebuiltin(command)
 

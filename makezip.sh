@@ -3,6 +3,10 @@
 ADDON_FILES_TO_ZIP=(
     "addon.xml"
     "resources/settings.xml"
+    "resources/icon_viki.png"
+    "resources/icon_netflix.png"
+    "resources/icon_youtube.png"
+    "resources/icon_hbo_max.png"
     "Kodi_launcher.png"
     "default.py"
 )
