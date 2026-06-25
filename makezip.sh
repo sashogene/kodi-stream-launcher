@@ -1,15 +1,16 @@
 #!/bin/bash
 # Configurable list of files to include in the zip
 ADDON_FILES_TO_ZIP=(
-    "addon.xml"
-    "resources/settings.xml"
-    "resources/icon_viki.png"
-    "resources/icon_netflix.png"
-    "resources/icon_youtube.png"
-    "resources/icon_hbo_max.png"
-    "Kodi_launcher.png"
-    "default.py"
+    "kodi-stream-launcher/addon.xml"
+    "kodi-stream-launcher/resources/settings.xml"
+    "kodi-stream-launcher/resources/icon_viki.png"
+    "kodi-stream-launcher/resources/icon_netflix.png"
+    "kodi-stream-launcher/resources/icon_youtube.png"
+    "kodi-stream-launcher/resources/icon_hbo_max.png"
+    "kodi-stream-launcher/resources/Kodi_launcher.png"
+    "kodi-stream-launcher/resources/default.py"
 )
-rm release/kodi-stream-launcher.zip
-zip release/kodi-stream-launcher.zip "${ADDON_FILES_TO_ZIP[@]}" 
-cp release/kodi-stream-launcher.zip /nfs/Public/Kodi_development/
+cd ..
+rm kodi-stream-launcher/release/kodi-stream-launcher.zip
+zip kodi-stream-launcher/release/kodi-stream-launcher.zip "${ADDON_FILES_TO_ZIP[@]}" 
+cp kodi-stream-launcher/release/kodi-stream-launcher.zip /nfs/Public/Kodi_development/
