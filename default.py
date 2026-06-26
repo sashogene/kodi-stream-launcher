@@ -341,14 +341,14 @@ def launch_service(package_id, content_id=None):
         command_parts.append(f",{service_config['component']}")
     
     command_parts.append(")")
-    
-    xbmcplugin.addDirectoryItem(HANDLE, "", xbmcgui.ListItem(label=" "), False)
 
     command = "".join(command_parts)
     xbmc.executebuiltin(command)
 
-    # Close plugin directory (succeeded=False means no content to play, just launching the app)
-    xbmcplugin.endOfDirectory(HANDLE, succeeded=False)
+    # The add-on is only launching an external app here. Returning a dummy playable
+    # item to Kodi causes the .strm flow to surface a "No playable item" error.
+    # Exit cleanly instead of building a content listing.
+    return
 
 
 def configure_services():
@@ -454,14 +454,10 @@ def handle_play_action(provider, content_id):
         )
         return
     
-    # Use unified launcher for all services
+    # Use unified launcher for all services.
+    # The launcher exits cleanly after starting the external app so Kodi does not
+    # report a missing playable item for the .strm link flow.
     launch_service(package, content_key)
-    
-    # Trying to prevent Kodi from showing "No stream found" by setting a resolved URL that points back to the plugin with the content info.
-    # xbmcplugin.setResolvedUrl(1, True, xbmcgui.ListItem(path="plugin://"+package+"/?_play="+content_key))
-    
-    # Close plugin directory (succeeded=False means no content to play, just launching the app)
-    xbmcplugin.endOfDirectory(HANDLE, succeeded=False)
 
     
 
