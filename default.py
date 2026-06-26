@@ -459,7 +459,9 @@ def handle_play_action(provider, content_id):
     # report a missing playable item for the .strm link flow.
     launch_service(package, content_key)
 
-    
+    li = xbmcgui.ListItem()
+    li.setProperty("IsPlayable", "true")
+    xbmcplugin.setResolvedUrl(HANDLE, True, li)
 
 def show_root():
     for show in NETFLIX_SHOWS:
